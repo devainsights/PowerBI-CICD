@@ -1,0 +1,89 @@
+table WeatherDetails
+	lineageTag: 71abfe86-ed4f-4161-82ce-93095b1d21dc
+
+	column 'Weather Detail'
+		dataType: string
+		lineageTag: d645ebd2-5f0e-47d5-b45c-7bb40c06d624
+		summarizeBy: none
+		sourceColumn: mr_weatherdetailid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created On'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c53c8b7a-7f17-4ebb-a20f-53419d3f1419
+		summarizeBy: none
+		sourceColumn: createdon
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created By'
+		dataType: string
+		lineageTag: 03f3355f-e088-4e4a-ac03-02277bb42768
+		summarizeBy: none
+		sourceColumn: createdbyname
+
+		annotation SummarizationSetBy = Automatic
+
+	column Temperature
+		dataType: int64
+		formatString: 0
+		lineageTag: 39eb3f8f-2de8-48b9-92da-16069bf57a9b
+		summarizeBy: sum
+		sourceColumn: mr_temperature
+
+		annotation SummarizationSetBy = Automatic
+
+	column Pressure
+		dataType: double
+		lineageTag: dbc4fe07-f932-4d96-a30e-c5dacac4d0e7
+		summarizeBy: sum
+		sourceColumn: mr_pressure
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Wind Speed'
+		dataType: int64
+		formatString: 0
+		lineageTag: e66982c6-a83f-49b5-bf88-2bd393a0f864
+		summarizeBy: sum
+		sourceColumn: mr_windspeed
+
+		annotation SummarizationSetBy = Automatic
+
+	column Humidity
+		dataType: int64
+		formatString: 0
+		lineageTag: 244477b8-51ec-4dcf-9a93-7057553765fb
+		summarizeBy: sum
+		sourceColumn: mr_humidity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: string
+		lineageTag: ef910e82-f8de-4b61-bd5e-d72f942f87ee
+		summarizeBy: none
+		sourceColumn: mr_location
+
+		annotation SummarizationSetBy = Automatic
+
+	partition WeatherDetails = m
+		mode: import
+		source =
+				let
+				  Source = CommonDataService.Database("orgdfc394d6.crm8.dynamics.com"),
+				  #"Navigation 1" = Source{[Schema = "dbo", Item = "mr_weatherdetail"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(#"Navigation 1",{"mr_weatherdetailid", "createdon", "createdbyname", "mr_pressure", "mr_windspeed", "mr_humidity", "mr_location", "mr_temperature"})
+				in
+				    #"Removed Other Columns"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

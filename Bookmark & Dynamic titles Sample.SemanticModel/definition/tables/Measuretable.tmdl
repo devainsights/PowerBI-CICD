@@ -1,0 +1,35 @@
+table Measuretable
+	lineageTag: 33c3cc99-0f0c-4857-83e7-bf33ac1cca19
+
+	measure Selectedmeasure =
+			SWITCH(
+			    SELECTEDVALUE(Measuretable[Measures]),
+			    "Sales", SUM('Sales Table'[Sales]),
+			    "Quantity", SUM('Sales Table'[Quantity]),
+			    "Gross Profit", SUM('Sales Table'[Gross Profit])
+			)
+		formatString: 0
+		lineageTag: 5caf48d2-99e2-4ef5-b77d-3e2fae39b897
+
+	column Measures
+		lineageTag: ae11647c-8349-4d05-b779-21cc059d092a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Measures]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measuretable = calculated
+		mode: import
+		source =
+				DATATABLE(
+				    "Measures",STRING,
+				    {
+				        {"Sales"},
+				        {"Quantity"},
+				        {"Gross Profit"}
+				    }
+				)
+
+	annotation PBI_Id = 73bd47507a644e15b12c26c5c85f640f
+

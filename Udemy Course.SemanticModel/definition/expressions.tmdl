@@ -1,0 +1,59 @@
+expression Parameter1 = #"Sample File" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: b3d08d06-f793-431a-8a6c-0ff1917165dd
+	queryGroup: 'Transform File from Sales Data\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File' =
+		let
+		    Source = Csv.Document(Parameter1,[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: b92aed30-06ce-4b88-aeac-d330ebf26c37
+	queryGroup: 'Transform File from Sales Data'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File' =
+		let
+		    Source = Folder.Files("C:\Users\devan\Downloads\Power BI\AdventureWorks Raw Data\Sales Data"),
+		    #"D:\Power BI\AdventureWorks Raw Data\Sales Data\_AdventureWorks Sales Data 2021 csv" = Source{[#"Folder Path"="C:\Users\devan\Downloads\Power BI\AdventureWorks Raw Data\Sales Data\",Name="AdventureWorks Sales Data 2021.csv"]}[Content]
+		in
+		    #"D:\Power BI\AdventureWorks Raw Data\Sales Data\_AdventureWorks Sales Data 2021 csv"
+	lineageTag: 4ea63259-2626-469e-9852-f16bd6a1c314
+	queryGroup: 'Transform File from Sales Data\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Transform File' =
+		let
+		    Source = (Parameter1 as binary) => let
+		    Source = Csv.Document(Parameter1,[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File""}" ]
+	lineageTag: 8291311b-d119-4b97-8f18-3a8b0f5c271a
+	queryGroup: 'Transform File from Sales Data\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression RangeStart = #date(2020, 1, 1) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
+	lineageTag: 37a91fdf-848a-4a4c-9d8c-f6d4ac21dc8c
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Date
+
+expression RangeEnd = #date(2025, 5, 7) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
+	lineageTag: 0dd2dbe4-9c12-428b-b9d9-885a190fbee7
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Date
+

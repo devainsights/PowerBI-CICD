@@ -1,0 +1,51 @@
+table 'Measure selector'
+	lineageTag: 2f4af8e6-a84f-4bdf-a045-8071cd09d9c8
+
+	column 'Measure selector'
+		lineageTag: 572be701-9719-4e38-9d35-d5287fd94980
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Measure selector Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Measure selector Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Measure selector Fields'
+		isHidden
+		lineageTag: 8d31b97e-6357-4f19-a73d-33cdc0825108
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Measure selector Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Measure selector Order'
+		isHidden
+		formatString: 0
+		lineageTag: 3f64f325-4619-492c-92ae-7dd88ab2c810
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Measure selector' = calculated
+		mode: import
+		source =
+				{
+				    ("Total Cost", NAMEOF('Measure Table'[Total Cost]), 0),
+				    ("Total Revenue", NAMEOF('Measure Table'[Total Revenue]), 1),
+				    ("Total Profit", NAMEOF('Measure Table'[Total Profit]), 2),
+				    ("Total Orders", NAMEOF('Measure Table'[Total Orders]), 3),
+				    ("Quanity Sold", NAMEOF('Measure Table'[Quanity Sold]), 4)
+				}
+
+	annotation PBI_Id = 47b42239c25040daa9f61c726b26a4e4
+

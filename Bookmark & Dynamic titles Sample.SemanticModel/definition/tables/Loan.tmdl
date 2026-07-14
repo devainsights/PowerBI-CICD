@@ -1,0 +1,52 @@
+table Loan
+	lineageTag: f14f4629-aa25-4891-8e13-8a0a0b40e6da
+
+	measure 'Loan Amount' = DIVIDE(SUM(Loan[Loan]),EMISimulator[EMISimulator Value])
+		formatString: #,0
+		lineageTag: cd8216c8-f243-4273-8607-103b538eb630
+
+	measure '% loan amount' = sum(Loan[Loan]) * EMISimulator[EMISimulator Value] /100
+		formatString: #,0
+		lineageTag: 6210f692-dd05-42ce-858c-e4e9e94597cb
+
+	column Employee
+		dataType: string
+		lineageTag: a73b20f9-5fc1-43dc-8e1c-cd1b0732988c
+		summarizeBy: none
+		sourceColumn: Employee
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: string
+		lineageTag: fc2e6513-4b36-48f1-9749-7358aba7007f
+		summarizeBy: none
+		sourceColumn: Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column Loan
+		dataType: int64
+		formatString: #,0
+		lineageTag: 92c33661-8346-4ea1-ae5c-0d77c5c6edc7
+		summarizeBy: sum
+		sourceColumn: Loan
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Loan = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\devan\OneDrive\Documents\Power BI\manytomany.xlsx"), null, true),
+				    Loan_Sheet = Source{[Item="Loan",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Loan_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{" Employee ", type text}, {" Location  ", type text}, {" Loan   ", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{" Loan   ", "Loan"}, {" Employee ", "Employee"}, {" Location  ", "Location"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,33 @@
+table 'Page Access'
+	lineageTag: 6669dbb8-cadd-4e2d-946d-9d0aa876507e
+
+	column 'Page Name'
+		dataType: string
+		lineageTag: 3c8f894b-f29c-455e-8863-33a8908460ab
+		summarizeBy: none
+		sourceColumn: Page Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'RLS Name'
+		dataType: string
+		lineageTag: 21b680a4-bdd6-4269-ae6d-d507d1416651
+		summarizeBy: none
+		sourceColumn: RLS Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Page Access' = m
+		mode: import
+		queryGroup: 'Power BI Course'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wcq1ITVZwSSzOSMpPLEpR0lFyzMlRitWJVvJNLEDiBRTlp5Qmlyi4pJYkZuYUI8k4lxaX5OemFmGRwjAbJFBaklmWisNMVHksJsOEcOiHiuDSDdOQmJeiQJxJaEpjAQ==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Page Name" = _t, #"RLS Name" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Page Name", type text}, {"RLS Name", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

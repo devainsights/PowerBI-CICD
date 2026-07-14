@@ -1,0 +1,7 @@
+role 'Page Level Security'
+	modelPermission: read
+
+	tablePermission 'User Access' = [User details] == "USERPRINCIPLENAME()"
+
+	annotation PBI_Id = ad24f0ff19f244099cc3f93af0f7abd9
+

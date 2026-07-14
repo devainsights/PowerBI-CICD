@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Deloitte Interview"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c2c84a7c-3674-852a-4e2b-01dc7f9b9833"
+  }
+}

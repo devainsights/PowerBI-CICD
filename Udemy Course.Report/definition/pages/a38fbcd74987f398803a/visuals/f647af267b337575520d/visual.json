@@ -1,0 +1,31 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "f647af267b337575520d",
+  "position": {
+    "x": 32.195121951219512,
+    "y": 51.219512195121951,
+    "z": 0,
+    "height": 504.8780487804878,
+    "width": 715.609756097561,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "qnaVisual",
+    "objects": {
+      "hiddenProperties": [
+        {
+          "properties": {
+            "savedUtterance": {
+              "expr": {
+                "Literal": {
+                  "Value": "'tota orders of blue Bikes by start of month'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

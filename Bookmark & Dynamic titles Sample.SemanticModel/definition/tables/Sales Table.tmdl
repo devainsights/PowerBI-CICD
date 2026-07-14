@@ -1,0 +1,82 @@
+table 'Sales Table'
+	lineageTag: 16efcbd2-6a09-4a63-a47a-a8b6ed508b1b
+
+	refreshPolicy
+		policyType: basic
+		rollingWindowGranularity: year
+		rollingWindowPeriods: 5
+		incrementalGranularity: day
+		incrementalPeriods: 2
+		pollingExpression = let #"MaxDate/Time" = List.Max(#"Sales Table"[#"Date/Time"]), accountForNull = if #"MaxDate/Time" = null then #datetime(1901, 01, 01, 00, 00, 00) else #"MaxDate/Time" in accountForNull
+		sourceExpression =
+			let
+			    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("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", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Date = _t, Sales = _t, Quantity = _t, #"Gross Profit" = _t]),
+			    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Date", type date}, {"Sales", type number}, {"Quantity", Int64.Type}, {"Gross Profit", type number}}),
+			    #"Inserted Date/Time" = Table.AddColumn(#"Changed Type", "Date/Time", each DateTime.From([Date]), type datetime),
+			    #"Filtered Rows" = Table.SelectRows(#"Inserted Date/Time", each [#"Date/Time"] >= RangeStart and [#"Date/Time"] < RangeEnd)
+			in
+			    #"Filtered Rows"
+
+	column Sales
+		dataType: double
+		formatString: 0
+		lineageTag: f1810b9c-215a-415f-aea0-a38795b9abdf
+		summarizeBy: sum
+		sourceColumn: Sales
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b815a650-abe1-440f-9f7d-536c7e3b1836
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 2d040e9d-481c-4f2f-ab3e-81dbc09798da
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gross Profit'
+		dataType: double
+		lineageTag: df2d9214-6d9e-4eb6-b286-1ddc465d59b7
+		summarizeBy: sum
+		sourceColumn: Gross Profit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date/Time
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f214b2b9-b19f-4011-8b60-6ea39788caf1
+		summarizeBy: none
+		sourceColumn: Date/Time
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Sales Table' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("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", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Date = _t, Sales = _t, Quantity = _t, #"Gross Profit" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Date", type date}, {"Sales", type number}, {"Quantity", Int64.Type}, {"Gross Profit", type number}}),
+				    #"Inserted Date/Time" = Table.AddColumn(#"Changed Type", "Date/Time", each DateTime.From([Date]), type datetime),
+				    #"Filtered Rows" = Table.SelectRows(#"Inserted Date/Time", each [#"Date/Time"] >= RangeStart and [#"Date/Time"] < RangeEnd)
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

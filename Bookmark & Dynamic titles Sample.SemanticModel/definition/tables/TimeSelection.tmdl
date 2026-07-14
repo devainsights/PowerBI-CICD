@@ -1,0 +1,36 @@
+table TimeSelection
+	lineageTag: 5ce2615c-04e4-49ce-9ff8-be5dc858e080
+
+	measure 'Timeperiod Measure' =
+			SWITCH(
+			    SELECTEDVALUE(TimeSelection[Period]),
+			    "MTD",TOTALMTD(SELECTEDMEASURE(),'Calendar Table'[Date]),
+			    "QTD",TOTALQTD(SELECTEDMEASURE(),'Calendar Table'[Date]),
+			    "YTD", TOTALYTD([SelectedMeasure], 'Calendar Table'[Date])
+			)
+		lineageTag: 00f82a74-1f6a-4ec1-9357-2c0cd5284f94
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Period
+		lineageTag: 8cb490a4-5f09-4c74-814c-65d1ad8de119
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Period]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition TimeSelection = calculated
+		mode: import
+		source =
+				DATATABLE(
+				    "Period", STRING,
+				    {
+				        {"MTD"},
+				        {"QTD"},
+				        {"YTD"}
+				    }
+				)
+
+	annotation PBI_Id = 7dda1849e38148488300999904aeb244
+

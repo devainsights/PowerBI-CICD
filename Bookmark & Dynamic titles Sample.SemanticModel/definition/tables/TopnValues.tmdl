@@ -1,0 +1,28 @@
+table TopnValues
+	lineageTag: 6ce79d82-678a-4f53-bc04-265a616dec2b
+
+	column Value
+		formatString: 0
+		lineageTag: 00bd7257-f9f7-44c4-9cf0-43a13250accf
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition TopnValues = calculated
+		mode: import
+		source =
+				DATATABLE(
+				    "Value",INTEGER,
+				    {
+				        {1},
+				        {2},
+				        {3},
+				        {4},
+				        {5}
+				    }
+				)
+
+	annotation PBI_Id = 76e122a0da0642259c12a6140dfec1f9
+

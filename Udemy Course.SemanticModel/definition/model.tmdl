@@ -1,0 +1,58 @@
+model Model
+	culture: en-IN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+/// All Course releated data
+queryGroup 'Power BI Course'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Sales Data'
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'Transform File from Sales Data\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation PBI_QueryOrder = ["Territory Lookup","Product Lookup","Product Categories Lookup","Product Subcategories Lookup","Customer Lookup","Calendar Lookup","Returns Data","Sales Data","Page Access","User Access","Page Name","Parameter1","Transform Sample File","Sample File","Transform File","Measure Table","Sample Measure Table","RangeEnd","RangeStart"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["CalcGroup","DaxQueryView_Desktop"]
+
+ref table 'Territory Lookup'
+ref table 'Product Lookup'
+ref table 'Product Categories Lookup'
+ref table 'Product Subcategories Lookup'
+ref table 'Customer Lookup'
+ref table 'Calendar Lookup'
+ref table 'Sales Data'
+ref table 'Returns Data'
+ref table 'Measure Table'
+ref table 'Price Adjustment (%)'
+ref table 'Product Metric Selection'
+ref table 'Customer Metric Selection'
+ref table 'Time Intelligence'
+ref table 'Measure selector'
+ref table 'Sample Measure Table'
+ref table 'Page Name'
+ref table 'Page Access'
+ref table 'User Access'
+ref table 'Model Measures'
+ref table 'Model Tables'
+ref table 'Model Relationships'
+ref table 'Model Columns'
+
+ref role Europe
+ref role 'North America'
+ref role Pacific
+ref role 'Page Level Security'
+
+ref cultureInfo en-IN
+

@@ -1,0 +1,26 @@
+table EMISimulator
+	lineageTag: 25574ea2-5797-4d07-9552-e24818022d80
+
+	measure 'EMISimulator Value' = SELECTEDVALUE('EMISimulator'[EMISimulator])
+		formatString: 0
+		lineageTag: a0851ba2-6188-407e-bc4d-2de7a9ef2d96
+
+	column EMISimulator
+		formatString: 0
+		lineageTag: bec36ccd-8d6c-439b-b84b-d4a18136b1ff
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition EMISimulator = calculated
+		mode: import
+		source = GENERATESERIES(0, 10, 1)
+
+	annotation PBI_Id = 7655c3cc606344fa9f27fa2766d88ff4
+

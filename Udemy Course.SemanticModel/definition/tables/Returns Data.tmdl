@@ -1,0 +1,65 @@
+table 'Returns Data'
+	lineageTag: 01eb6869-45e5-4be1-89bc-35900b82c702
+
+	column ReturnDate
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 480ef505-bed1-46f0-a456-dd0f095351de
+		summarizeBy: none
+		sourceColumn: ReturnDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column TerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5f7a6e6a-c727-4e20-9e31-02cce346ae4a
+		summarizeBy: none
+		sourceColumn: TerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e1be3edb-081d-4438-8efb-62162c0b63d0
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReturnQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 619410b2-5b3f-462d-8240-0aa2b7a3fd63
+		summarizeBy: sum
+		sourceColumn: ReturnQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Returns Data' = m
+		mode: import
+		queryGroup: 'Power BI Course'
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\devan\Downloads\Power BI\AdventureWorks Raw Data\AdventureWorks Returns Data.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ReturnDate", type date}, {"TerritoryKey", Int64.Type}, {"ProductKey", Int64.Type}, {"ReturnQuantity", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

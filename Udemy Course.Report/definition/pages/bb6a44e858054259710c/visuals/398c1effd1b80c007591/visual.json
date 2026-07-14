@@ -1,0 +1,216 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "398c1effd1b80c007591",
+  "position": {
+    "x": 256.09756097560972,
+    "y": 71.707317073170728,
+    "z": 1000,
+    "height": 474.14634146341461,
+    "width": 557.560975609756,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product Categories Lookup"
+                    }
+                  },
+                  "Property": "CategoryName"
+                }
+              },
+              "queryRef": "Product Categories Lookup.CategoryName",
+              "nativeQueryRef": "CategoryName",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product Subcategories Lookup"
+                    }
+                  },
+                  "Property": "SubcategoryName"
+                }
+              },
+              "queryRef": "Product Subcategories Lookup.SubcategoryName",
+              "nativeQueryRef": "SubcategoryName",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product Lookup"
+                    }
+                  },
+                  "Property": "ProductName"
+                }
+              },
+              "queryRef": "Product Lookup.ProductName",
+              "nativeQueryRef": "ProductName",
+              "active": false
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                }
+              },
+              "queryRef": "Measure Table.Total Revenue",
+              "nativeQueryRef": "Total Revenue",
+              "hidden": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Total Cost"
+                }
+              },
+              "queryRef": "Measure Table.Total Cost",
+              "nativeQueryRef": "Total Cost",
+              "hidden": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Total Profit"
+                }
+              },
+              "queryRef": "Measure Table.Total Profit",
+              "nativeQueryRef": "Total Profit",
+              "hidden": true
+            },
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "FORMAT([Total Revenue]- [Total Cost],\"$#,##0\")",
+                  "Name": "Profit"
+                }
+              },
+              "queryRef": "select",
+              "nativeQueryRef": "Profit"
+            },
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "FORMAT(DIVIDE([Total Profit], COLLAPSE([Total Profit], ROWS)),\"#%\")",
+                  "Name": "Percent of parent"
+                }
+              },
+              "queryRef": "select1",
+              "nativeQueryRef": "Percent of parent"
+            },
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "FORMAT(DIVIDE([Total Profit], COLLAPSEALL([Total Profit], ROWS)),\"#%\")",
+                  "Name": "Percent of grand total"
+                }
+              },
+              "queryRef": "select2",
+              "nativeQueryRef": "Percent of grand total"
+            },
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "EXPAND(AVERAGE([Total Profit]), ROWS)",
+                  "Name": "Average of children"
+                }
+              },
+              "queryRef": "select3",
+              "nativeQueryRef": "Average of children"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "Product Categories Lookup.CategoryName"
+            ],
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product Categories Lookup"
+                    }
+                  },
+                  "Property": "CategoryName"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Product Subcategories Lookup.SubcategoryName"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product Subcategories Lookup"
+                    }
+                  },
+                  "Property": "SubcategoryName"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Product Lookup.ProductName"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "drillFilterOtherVisuals": true
+  }
+}

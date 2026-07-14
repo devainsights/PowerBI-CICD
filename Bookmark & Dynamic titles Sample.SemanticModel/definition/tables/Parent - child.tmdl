@@ -1,0 +1,67 @@
+table 'Parent - child'
+	lineageTag: 58e85650-a84e-41b3-bf36-3ff0dcedaf7c
+
+	column 'Employee Name'
+		dataType: string
+		lineageTag: d9bef506-ad85-4cff-ab99-7ed4c4cdac54
+		summarizeBy: none
+		sourceColumn: Employee Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Manager
+		dataType: string
+		lineageTag: 9d657781-ec64-4a8e-aef5-1eb9de201610
+		summarizeBy: none
+		sourceColumn: Manager
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'org Hierarchy' = PATH('Parent - child'[Employee Name],'Parent - child'[Manager])
+		lineageTag: 79daf341-26d4-4fca-9872-be1f987f4b07
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'length of org' = PATHLENGTH('Parent - child'[org Hierarchy])
+		formatString: 0
+		lineageTag: 21c90010-2b4b-4a27-85c0-9f9837957fcf
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Emp contains' = PATHCONTAINS('Parent - child'[org Hierarchy],"Ramesh")
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 731a4dfa-d5f2-4999-8e2e-f60f198ec334
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'emp verfiy' = PATHITEM('Parent - child'[org Hierarchy],1,TEXT)
+		lineageTag: d46804d7-acb3-470c-9364-93646449f38f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'reverse emp' = PATHITEMREVERSE('Parent - child'[org Hierarchy],3,TEXT)
+		lineageTag: a082d543-5777-487f-b516-ee5d1202c03b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Parent - child' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\devan\OneDrive\Documents\Power BI\manytomany.xlsx"), null, true),
+				    #"Parent - Child_Sheet" = Source{[Item="Parent - Child",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(#"Parent - Child_Sheet",{{"Column1", type text}, {"Column2", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Employee Name", type text}, {"Manager", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,52 @@
+table 'State & Name'
+	lineageTag: c69cc4c2-35b2-40eb-a87e-5eb7f8b48619
+
+	column Name
+		dataType: string
+		lineageTag: b976b1bf-4936-421e-82f1-f240f14e7770
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'State Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4594a01b-1fca-4b5c-8ef9-c01ff2b4b698
+		summarizeBy: count
+		sourceColumn: State Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nested If' = IF('State & Name'[State Code] = 1, "TN", IF('State & Name'[State Code] = 2, "TS",IF('State & Name'[State Code] = 3, "AP",IF('State & Name'[State Code] = 4, "KL","Other State"))))
+		lineageTag: 8fa1ba3a-042e-4d19-9167-dfee7c8f3a6e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Switch case' =
+			SWITCH('State & Name'[State Code],
+			1,"TN",
+			2,"TS",
+			3,"AP",
+			4,"KL", "Other State")
+		lineageTag: 2063ff34-b3ae-4e0f-b249-1dc30d6398f8
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'State & Name' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\devan\OneDrive\Documents\Power BI\manytomany.xlsx"), null, true),
+				    #"state & name_Sheet" = Source{[Item="state & name",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"state & name_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Name", type text}, {"State Code", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

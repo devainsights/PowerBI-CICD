@@ -1,0 +1,85 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "f0c1c1415b28d22c9c61",
+  "position": {
+    "x": 209.26829268292681,
+    "y": 122.92682926829268,
+    "z": 0,
+    "height": 219.51219512195121,
+    "width": 316.09756097560972,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "EmployeeTable (Interviewer QA)"
+                    }
+                  },
+                  "Property": "Manager"
+                }
+              },
+              "queryRef": "EmployeeTable (Interviewer QA).Manager",
+              "nativeQueryRef": "Manager"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "EmployeeTable (Interviewer QA)"
+                    }
+                  },
+                  "Property": "Employee"
+                }
+              },
+              "queryRef": "EmployeeTable (Interviewer QA).Employee",
+              "nativeQueryRef": "Employee"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "EmployeeTable (Interviewer QA)"
+                        }
+                      },
+                      "Property": "Sales"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(EmployeeTable (Interviewer QA).Sales)",
+              "nativeQueryRef": "Sum of Sales"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "EmployeeTable (Interviewer QA)"
+                    }
+                  },
+                  "Property": "Sales %"
+                }
+              },
+              "queryRef": "EmployeeTable (Interviewer QA).Sales %",
+              "nativeQueryRef": "Sales %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

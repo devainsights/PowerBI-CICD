@@ -1,0 +1,7 @@
+role 'North America'
+	modelPermission: read
+
+	tablePermission 'Territory Lookup' = [Continent] == "North America"
+
+	annotation PBI_Id = f545e2db31b04966b50fab7983c7870c
+

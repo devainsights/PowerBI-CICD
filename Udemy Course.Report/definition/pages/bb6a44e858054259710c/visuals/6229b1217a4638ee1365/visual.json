@@ -1,0 +1,105 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "6229b1217a4638ee1365",
+  "position": {
+    "x": 825.36585365853659,
+    "y": 81.951219512195124,
+    "z": 2000,
+    "height": 389.26829268292681,
+    "width": 430.2439024390244,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer Lookup"
+                    }
+                  },
+                  "Property": "Occupation"
+                }
+              },
+              "queryRef": "Customer Lookup.Occupation",
+              "nativeQueryRef": "Occupation",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Total Customers"
+                }
+              },
+              "queryRef": "Measure Table.Total Customers",
+              "nativeQueryRef": "Total Customers",
+              "hidden": true
+            },
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "DIVIDE([Total Customers], COLLAPSEALL([Total Customers], ROWS))",
+                  "Name": "Percent of grand total"
+                }
+              },
+              "queryRef": "select",
+              "nativeQueryRef": "Percent of grand total"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "NativeVisualCalculation": {
+                "Language": "dax",
+                "Expression": "DIVIDE([Total Customers], COLLAPSEALL([Total Customers], ROWS))",
+                "Name": "Percent of grand total"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'InsideEnd'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

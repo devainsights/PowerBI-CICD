@@ -1,0 +1,25 @@
+table 'Sample Measure Table'
+	lineageTag: a915acd2-0808-4597-b0ee-52c569353850
+
+	measure Total_orders = COUNTROWS(VALUES('Sales Data'[OrderNumber]))
+		lineageTag: 9a6af158-61a4-4739-b841-8c00cab70589
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Quanity_Sold = SUM('Sales Data'[OrderQuantity])
+		lineageTag: cc26a40b-8dcc-4777-aa2a-77e3f41efb8e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Sample Measure Table' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

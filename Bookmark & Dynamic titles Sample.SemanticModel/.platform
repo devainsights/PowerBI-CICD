@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Bookmark & Dynamic titles Sample"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ef920c5e-a7c3-823f-4c9d-7845c998f278"
+  }
+}

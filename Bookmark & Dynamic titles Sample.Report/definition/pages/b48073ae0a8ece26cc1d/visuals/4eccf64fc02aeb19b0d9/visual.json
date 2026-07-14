@@ -1,0 +1,99 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "4eccf64fc02aeb19b0d9",
+  "position": {
+    "x": 38.048780487804876,
+    "y": 156.58536585365854,
+    "z": 1000,
+    "height": 286.82926829268291,
+    "width": 506.34146341463412,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Loan"
+                    }
+                  },
+                  "Property": "Employee"
+                }
+              },
+              "queryRef": "Loan. Employee ",
+              "nativeQueryRef": "Employee"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Loan"
+                        }
+                      },
+                      "Property": "Loan"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Loan. Loan   )",
+              "nativeQueryRef": "Sum of  Loan   "
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "EMISimulator"
+                    }
+                  },
+                  "Property": "EMISimulator Value"
+                }
+              },
+              "queryRef": "EMISimulator.EMISimulator Value",
+              "nativeQueryRef": "EMISimulator Value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Loan"
+                    }
+                  },
+                  "Property": "Loan Amount"
+                }
+              },
+              "queryRef": "Loan.Loan Amount",
+              "nativeQueryRef": "Loan Amount"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Loan"
+                    }
+                  },
+                  "Property": "% loan amount"
+                }
+              },
+              "queryRef": "Loan.% loan amount",
+              "nativeQueryRef": "% loan amount"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

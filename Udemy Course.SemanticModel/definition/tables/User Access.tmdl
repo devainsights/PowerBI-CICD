@@ -1,0 +1,33 @@
+table 'User Access'
+	lineageTag: eed81ea8-dbf8-4f84-9beb-cc5b0c4f6926
+
+	column 'User details'
+		dataType: string
+		lineageTag: c2ec44f4-881a-4fca-96fe-68ba728d7e24
+		summarizeBy: none
+		sourceColumn: User details
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'RLS Name'
+		dataType: string
+		lineageTag: 3f42dc24-88f9-4acf-9834-bc61cb983b4e
+		summarizeBy: none
+		sourceColumn: RLS Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'User Access' = m
+		mode: import
+		queryGroup: 'Power BI Course'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WckktS8xLzEtxyElNLMrLzEvPTczM0cvPy81MLsovzk8r0UvOz1XSUXLMyVGK1YlWSkxKdkCXc61ITS4tySxLBatILi0uyc9NLcJQ5gyVAKsqKMpPKU0uwVAUABGHmQRShkuNAtDZCghDYwE=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"User details" = _t, #"RLS Name" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"User details", type text}, {"RLS Name", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,28 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Loan","State & Name","Parent - child","Revenue","Sales Table","EmployeeTable (Interviewer QA)","RangeStart","RangeEnd"]
+
+ref table Loan
+ref table EMISimulator
+ref table 'Calendar Table'
+ref table 'State & Name'
+ref table 'Parent - child'
+ref table Revenue
+ref table Measuretable
+ref table 'Sales Table'
+ref table TimeSelection
+ref table SampleTable
+ref table sample
+ref table 'EmployeeTable (Interviewer QA)'
+ref table TopnValues
+
+ref cultureInfo en-US
+

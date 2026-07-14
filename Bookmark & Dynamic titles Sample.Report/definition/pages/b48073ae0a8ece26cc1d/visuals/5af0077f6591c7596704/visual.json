@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "5af0077f6591c7596704",
+  "position": {
+    "x": 752.19512195121945,
+    "y": 367.3170731707317,
+    "z": 5002,
+    "height": 150.73170731707316,
+    "width": 458.04878048780489,
+    "tabOrder": 5002
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SampleTable"
+                    }
+                  },
+                  "Property": "Dynamic Selection"
+                }
+              },
+              "queryRef": "SampleTable.samplemsr",
+              "nativeQueryRef": "Dynamic Selection"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "19552c6258eb969ce275",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "SampleTable"
+              }
+            },
+            "Property": "Dynamic Selection"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

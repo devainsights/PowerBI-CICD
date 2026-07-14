@@ -1,0 +1,47 @@
+table sample
+	lineageTag: b763a4b3-262b-43df-8539-5d6e84febe62
+
+	column sample
+		lineageTag: 24dbefc5-7582-40cf-8a65-b4cdd90fd91b
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'sample Order'
+
+		relatedColumnDetails
+			groupByColumn: 'sample Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'sample Fields'
+		isHidden
+		lineageTag: 026187ae-fd94-40ba-9824-fdc4a2c4b7ae
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'sample Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'sample Order'
+		isHidden
+		formatString: 0
+		lineageTag: aa7acc56-38a3-4994-b261-2e2d7a6a0051
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition sample = calculated
+		mode: import
+		source =
+				{
+				    ("Samplevalues", NAMEOF('SampleTable'[Samplevalues]), 0)
+				}
+
+	annotation PBI_Id = 04717db5bbe94852ac4910263b3bbcb1
+

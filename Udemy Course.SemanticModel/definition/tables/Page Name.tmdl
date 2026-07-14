@@ -1,0 +1,39 @@
+table 'Page Name'
+	lineageTag: 06093763-2fe4-4403-a328-c30e36ffcc15
+
+	measure selectedvalue = SELECTEDVALUE('Page Name'[PageName])
+		lineageTag: 2a335718-a697-497e-92f9-bbef360c10e7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PageName
+		dataType: string
+		lineageTag: c1eefc64-d18f-4e5a-be51-5538862e8a45
+		summarizeBy: none
+		sourceColumn: PageName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		dataType: int64
+		formatString: 0
+		lineageTag: 8698b87d-467f-4a7a-ae44-2448efa33de9
+		summarizeBy: none
+		sourceColumn: Order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Page Name' = m
+		mode: import
+		queryGroup: 'Power BI Course'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wcq1ITVZwSSzOSMpPLEpR0lEyVIrViVbyTSwAso3A7ICi/JTS5BIFl9SSxMycYqC4MVjcubS4JD83tQhJwkQpNhYA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [PageName = _t, Order = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"PageName", type text}, {"Order", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

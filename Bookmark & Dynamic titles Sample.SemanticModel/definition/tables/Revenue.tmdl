@@ -1,0 +1,49 @@
+table Revenue
+	lineageTag: 0c7de7ef-8662-4afc-9c2c-3ba715d31163
+
+	measure totalmtd = ```
+			TOTALMTD(
+			    SUM(Revenue[Revenue]),
+			    Revenue[Date], 
+			    FILTER(
+			        Revenue, 
+			        Revenue[Date] < TODAY()
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: 23f82b67-b8c9-4c01-b33c-8a9596448628
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 31288aa3-9884-4dba-bcd6-a80772fc9add
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Revenue
+		dataType: int64
+		formatString: 0
+		lineageTag: fc9da8e7-d214-41d5-ac24-056307cb4ebd
+		summarizeBy: sum
+		sourceColumn: Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Revenue = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("bc7LCcBACATQXjwvOJo1n1pk+28jBlbxEPD0GGZ0JwjjYIUaDVIDaA0n0aYTqXdT0a2YHJfZaugq51b9zSLWLPVB6y210qvp90PwegE=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Date = _t, Revenue = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Date", type date}, {"Revenue", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

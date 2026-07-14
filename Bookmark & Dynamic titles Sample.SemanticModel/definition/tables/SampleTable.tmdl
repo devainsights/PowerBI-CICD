@@ -1,0 +1,54 @@
+table SampleTable
+	lineageTag: 1cbbbb3f-72f5-474f-811c-8fa1f36e670f
+
+	measure 'Dynamic Selection' =
+			
+			var selected = SELECTEDVALUE('SampleTable'[Samplevalues])
+			var cnt = DISTINCTCOUNT(SampleTable[Samplevalues])
+			RETURN
+			IF(
+			    ISFILTERED(SampleTable[Samplevalues]),
+			    SWITCH(
+			        TRUE(),
+			        cnt = 1, "This is " & selected,
+			        cnt > 1, "More than one value selected"
+			
+			    ),
+			    "Not selected any Value"
+			)
+		lineageTag: 9c05e7a8-6023-4ea2-b811-073690a11137
+
+	measure 'Dynamic Multi Selection' =
+			IF(
+			    ISFILTERED(SampleTable[Samplevalues]),
+			        CONCATENATEX(
+			        VALUES(SampleTable[Samplevalues]),
+			        SampleTable[Samplevalues],
+			        ", "
+			    ),
+			    "Not selected any value"
+			)
+		lineageTag: 5f431d2a-ab86-40c7-ab46-126139a734f6
+
+	column Samplevalues
+		lineageTag: e6925876-4417-450c-bd77-bd0a2ec36d00
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Samplevalues]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SampleTable = calculated
+		mode: import
+		source =
+				DATATABLE(
+				    "Samplevalues",STRING,
+				    {
+				        {"Sample1"},
+				        {"Sample2"},
+				        {"Sample3"}
+				    }
+				)
+
+	annotation PBI_Id = 54e052a9b63e42fbbab21786ed7e859f
+

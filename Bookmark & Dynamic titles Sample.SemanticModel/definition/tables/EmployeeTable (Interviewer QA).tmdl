@@ -1,0 +1,57 @@
+table 'EmployeeTable (Interviewer QA)'
+	lineageTag: 2efbd9df-d16c-4a04-9254-c7dda6726a03
+
+	measure 'Sales %' =
+			
+			Var Managersales = CALCULATE(
+			    [Total Sales],
+			    ALL('EmployeeTable (Interviewer QA)'[Employee])
+			)
+			RETURN
+			DIVIDE(
+			    [Total Sales],
+			    Managersales
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bad2d3a7-0c9b-424f-8fa2-8728c8f2c8ab
+
+	measure 'Total Sales' = SUM('EmployeeTable (Interviewer QA)'[Sales])
+		formatString: 0
+		lineageTag: a4e3bf7a-24c3-4c92-a421-d83d98bc5488
+
+	column Manager
+		dataType: string
+		lineageTag: 82aeeae2-1b0c-4456-b319-c6300ed82f55
+		summarizeBy: none
+		sourceColumn: Manager
+
+		annotation SummarizationSetBy = Automatic
+
+	column Employee
+		dataType: string
+		lineageTag: 625ea08a-af54-4970-8f1e-5dc550063811
+		summarizeBy: none
+		sourceColumn: Employee
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sales
+		dataType: int64
+		formatString: 0
+		lineageTag: e256f2ed-3e71-473e-879f-9e57fe8bde44
+		summarizeBy: sum
+		sourceColumn: Sales
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'EmployeeTable (Interviewer QA)' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcszNLFHSUQpLLCrNA9KGBgYGSrE6cHGfzOJEkLApqnBAUWoqiDa3gAiHFOVXArleiSDS0gBFEKgFZIIRmmgOWNQQJBoLAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Manager = _t, Employee = _t, Sales = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Manager", type text}, {"Employee", type text}, {"Sales", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

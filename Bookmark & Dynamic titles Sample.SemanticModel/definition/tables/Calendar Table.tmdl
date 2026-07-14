@@ -1,0 +1,36 @@
+table 'Calendar Table'
+	lineageTag: efae1db7-4359-41ea-bfee-0452e763bc29
+
+	column Date
+		formatString: General Date
+		lineageTag: 40b21839-3d5b-494d-b204-c279bc5a93ea
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name' = FORMAT('Calendar Table'[Date],"DDDD")
+		lineageTag: 60a0a907-1674-4d66-a06f-2a0c91886b09
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column weekend = IF('Calendar Table'[Day Name] IN {"Saturday","Sunday"},"Weekend", "Regular")
+		lineageTag: 3772df9f-2eb7-4f0d-9d38-8aabbfdf10e7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'format date' = FORMAT('Calendar Table'[Date], "DDD-MM-YYYY")
+		lineageTag: 63a270cf-eef9-4436-acd5-4850e155b2fa
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Calendar Table' = calculated
+		mode: import
+		source = CALENDARAUTO()
+
+	annotation PBI_Id = 0abfc29d95a84f38a3949e96396c6a01
+

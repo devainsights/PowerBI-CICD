@@ -1,0 +1,70 @@
+table 'Territory Lookup'
+	excludeFromModelRefresh
+	lineageTag: e003ba70-a1fe-4ee1-9e49-b5aeec2dbfdb
+
+	column SalesTerritoryKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: d43e81a3-c58b-4f7f-a320-f858a827e3a2
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 006059f7-974a-4e00-8385-5cd1dffa9667
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: fa98772d-fe42-4481-ad4c-0b81f78c4ae6
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Continent
+		dataType: string
+		lineageTag: ebe23a46-8392-4d42-b11e-2f90dc9778fc
+		dataCategory: Continent
+		summarizeBy: none
+		sourceColumn: Continent
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Continent Hierarchy'
+		lineageTag: 498eab2d-a236-42a3-9ddf-f97f34582016
+
+		level Continent
+			lineageTag: 6240d259-274a-47ab-8c55-bc34df5d0ab7
+			column: Continent
+
+		level Country
+			lineageTag: d92527bc-b52f-46a7-8759-b8da6d871fd2
+			column: Country
+
+		level Region
+			lineageTag: 1d335ae2-93f5-4203-bf7c-d842d16bbe26
+			column: Region
+
+	partition 'Territory Lookup' = m
+		mode: import
+		queryGroup: 'Power BI Course'
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\devan\Downloads\Power BI\AdventureWorks Raw Data\AdventureWorks Territory Lookup.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"SalesTerritoryKey", Int64.Type}, {"Region", type text}, {"Country", type text}, {"Continent", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

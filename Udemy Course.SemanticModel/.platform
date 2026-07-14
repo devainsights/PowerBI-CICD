@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Udemy Course"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "892d9261-b807-a56f-4c7a-c07705717c1d"
+  }
+}

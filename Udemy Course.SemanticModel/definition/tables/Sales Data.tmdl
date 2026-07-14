@@ -1,0 +1,145 @@
+table 'Sales Data'
+	lineageTag: c5747772-ad43-4f53-885f-f536e869f7b9
+
+	column OrderDate
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: b51402c2-1e4f-4781-9d2b-b8d1e1bfb99c
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column StockDate
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: b7c684d0-1a7e-4187-8450-92838e6e655a
+		summarizeBy: none
+		sourceColumn: StockDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column OrderNumber
+		dataType: string
+		lineageTag: 4cdbb9a5-2b9a-4b0d-90a5-179527b0a986
+		summarizeBy: none
+		sourceColumn: OrderNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 65dca5bf-6317-44c3-b64a-9653ababcee7
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 470c7cf4-fe90-48bc-8226-5b9a150ea21a
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 272154ec-d6fe-463f-8def-2d6eb07f05dd
+		summarizeBy: none
+		sourceColumn: TerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderLineItem
+		dataType: int64
+		formatString: 0
+		lineageTag: 899928c5-aef3-44c9-81db-a171da182079
+		summarizeBy: sum
+		sourceColumn: OrderLineItem
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: af620d9c-cc1e-4d5d-aeb0-dd4bc8f280b4
+		summarizeBy: sum
+		sourceColumn: OrderQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity = IF('Sales Data'[OrderQuantity] > 1,"Multiple items","Single item")
+		lineageTag: f9f46982-142c-48cc-ae1f-a0f333e3b34f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Retail Price' =
+			
+			RELATED(
+			    'Product Lookup'[ProductPrice]
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 43cd4f39-ee04-4aec-bcea-2bb96aa519d1
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Revenue =
+			
+			'Sales Data'[Retail Price] * 'Sales Data'[OrderQuantity]
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: e74fd47f-7f69-4f0c-8798-f1a11bd9a8fc
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Sales Data' = m
+		mode: import
+		queryGroup: 'Power BI Course'
+		source =
+				let
+				    Source = Folder.Files("C:\Users\devan\Downloads\Power BI\AdventureWorks Raw Data\Sales Data"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File", each #"Transform File"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File", Table.ColumnNames(#"Transform File"(#"Sample File"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"OrderDate", type date}, {"StockDate", type date}, {"OrderNumber", type text}, {"ProductKey", Int64.Type}, {"CustomerKey", Int64.Type}, {"TerritoryKey", Int64.Type}, {"OrderLineItem", Int64.Type}, {"OrderQuantity", Int64.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Source.Name"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
